@@ -9,7 +9,11 @@ const aiRoutes = require("./routes/aiRoutes");
 const app = express();
 
 //middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://react-flow-project-1.onrender.com",
+  }),
+);
 app.use(express.json());
 
 // Routes
