@@ -4,6 +4,7 @@ import "@xyflow/react/dist/style.css";
 
 import axios from "axios";
 import {
+  applyNodeChanges,
   Background,
   Controls,
   Handle,
@@ -12,6 +13,7 @@ import {
   ReactFlow,
 } from "@xyflow/react";
 import { toast, ToastContainer } from "react-toastify";
+import { useEffect } from "react";
 
 //  Custom Input Node
 function InputNode({ data }) {
@@ -70,14 +72,14 @@ export default function FlowApp() {
   const isInputValid = inputText.trim().length > 0;
 
   //  Initial Nodes
-  const nodes = [
+  const [nodes, setNodes] = useState([
     {
       id: "1",
       type: "inputNode",
       position: { x: 0, y: 0 },
       data: {
-        value: inputText,
-        onChange: setInputText,
+        value: "",
+        onChange: () => {},
       },
     },
     {
@@ -85,12 +87,11 @@ export default function FlowApp() {
       type: "resultNode",
       position: { x: 450, y: 0 },
       data: {
-        value: result,
-        loading: loading,
+        value: "",
+        loading: false,
       },
     },
-  ];
-
+  ]);
   //  Edge
   const edges = [
     {
@@ -161,6 +162,32 @@ export default function FlowApp() {
       setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
     [],
   );
+
+  useEffect(() => {
+    setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === "1") {
+          return {
+            ...node,
+            data: {
+              value: inputText,
+              onChange: setInputText,
+            },
+          };
+        }
+        if (node.id === "2") {
+          return {
+            ...node,
+            data: {
+              value: result,
+              loading: loading,
+            },
+          };
+        }
+        return node;
+      }),
+    );
+  }, [inputText, result, loading]);
 
   return (
     <div style={{ width: "100%", height: "100vh" }}>

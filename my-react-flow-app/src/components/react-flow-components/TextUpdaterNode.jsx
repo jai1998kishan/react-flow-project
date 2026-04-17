@@ -1,3 +1,5 @@
+// className="nodrag"
+
 import { useCallback } from "react";
 
 export default function TextUpdaterNode(props) {
@@ -9,8 +11,8 @@ export default function TextUpdaterNode(props) {
     <>
       <div className="text-updater-node">
         <div>
-          <label htmlFor="text">Text:</label>
-          <input id="text" name="text" onChange={onChange} className="nodrag" />
+          <label htmlFor="text">Text..........:</label>
+          <input id="text" name="text" onChange={onChange} />
         </div>
       </div>
     </>
